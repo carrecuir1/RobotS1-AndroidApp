@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ProjetRobot</string>
+    <string name="lbl_Equipe_Text">Les 100G-NY</string>
+    <string name="lbl_SousTitre_Text">Bluetooth controller</string>
+    <string name="btn_ConnectBT_Text">Connecter au bluetooth</string>
+</resources>
