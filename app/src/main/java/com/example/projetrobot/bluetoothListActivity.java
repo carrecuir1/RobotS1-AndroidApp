@@ -57,9 +57,12 @@ public class bluetoothListActivity extends AppCompatActivity {
                                     int position, long id) {
                 String selectedFromList =(String) (listView.getItemAtPosition(position));
                 String selectedItem[] = selectedFromList.split("\\n");
-                //faire passer le string
-                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(selectedFromList.split("\\n")[1]);
-                Toast.makeText(bluetoothListActivity.this,device.getName(), Toast.LENGTH_SHORT).show();
+
+                //Création de la nouvelle activité
+                Intent intent = new Intent(bluetoothListActivity.this, RobotController.class);
+                intent.putExtra("adrDevice", selectedItem[1]);
+                startActivity(intent);
+                finish();
             }
         });
 

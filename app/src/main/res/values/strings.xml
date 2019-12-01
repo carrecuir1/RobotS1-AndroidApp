@@ -5,4 +5,9 @@
     <string name="btn_ConnectBT_Text">Connecter au bluetooth</string>
     <string name="imgView_BT_Text">Image BT</string>
     <string name="title_activity_bluetooth_list">bluetoothListActivity</string>
+    <string name="btn_Motor_Text">Activation du moteur</string>
+    <string name="btn_Gauche_Text">Touner à gauche</string>
+    <string name="btn_Droite_Text">Touner à droite</string>
+    <string name="btn_Tirer_Text">Tirer</string>
+    <string name="btn_dis_Text">Déconnecter</string>
 </resources>
