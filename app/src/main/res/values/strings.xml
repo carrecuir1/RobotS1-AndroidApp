@@ -2,12 +2,13 @@
     <string name="app_name">ProjetRobot</string>
     <string name="lbl_Equipe_Text">Les 100G-NY</string>
     <string name="lbl_SousTitre_Text">Bluetooth controller</string>
-    <string name="btn_ConnectBT_Text">Connecter au bluetooth</string>
-    <string name="imgView_BT_Text">Image BT</string>
+    <string name="btn_ConnectBT_Text">connecter au bluetooth</string>
+    <string name="imgView_BT_Text">image BT</string>
     <string name="title_activity_bluetooth_list">bluetoothListActivity</string>
-    <string name="btn_Motor_Text">Activation du moteur</string>
-    <string name="btn_Gauche_Text">Touner à gauche</string>
-    <string name="btn_Droite_Text">Touner à droite</string>
-    <string name="btn_Tirer_Text">Tirer</string>
-    <string name="btn_dis_Text">Déconnecter</string>
+    <string name="btn_Motor_Text1">activation du moteur</string>
+    <string name="btn_Motor_Text2">désactivation du moteur</string>
+    <string name="btn_Gauche_Text">touner à gauche</string>
+    <string name="btn_Droite_Text">touner à droite</string>
+    <string name="btn_Tirer_Text">tirer</string>
+    <string name="btn_dis_Text">déconnecter</string>
 </resources>

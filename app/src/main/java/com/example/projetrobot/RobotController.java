@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class RobotController extends AppCompatActivity {
@@ -43,122 +44,112 @@ public class RobotController extends AppCompatActivity {
             finish();
         }
         ConnectBT();
-    }
-    /********************TODO LIST
-     * Renommer les noms des boutons
-     * Faire ne sorte que le timer fonctionne
-     * Envoyer des infos en permanance au BT
-     * *********************/
-/*
-    timer.schedule(new TimerTask() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(startSend==1) SendBluetooth(Bm);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(startSend==1) SendBluetooth(Bm);
+                    }
+                });
+
+            }
+        }, 0, 50);
+
+        startSend=1;
+
+        //commands to be sent to bluetooth
+        btnMotor.setOnClickListener (new View.OnClickListener() {
+            public void onClick(View v) {
+                String motorText = (String)btnMotor.getText();
+                switch(motorText) {
+                    case "activation du moteur":
+                        btnMotor.setText("désactivation du moteur");
+                        btnGauche.setEnabled(true);
+                        btnDroite.setEnabled(true);
+                        btnTirer.setEnabled(true);
+                        Bm="1";
+                        break;
+                    case "désactivation du moteur":
+                        btnMotor.setText("activation du moteur");
+                        btnGauche.setEnabled(false);
+                        btnDroite.setEnabled(false);
+                        btnTirer.setEnabled(false);
+                        Bm="0";
+                        break;
                 }
-            });
-
-        }
-    }, 0, 50);
-
-    startSend=1;
-
-    //commands to be sent to bluetooth
-        btnForward.setOnTouchListener (new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch(event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Bm="1";
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Bm="0";
-                    break;
             }
-            return false;
-        }
-    });
+        });
 
-        btnLeft.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Bm = "2";
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Bm = "0";
-                    break;
+        btnGauche.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Bm = "2";
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Bm = "-1";
+                        break;
+                }
+                return false;
             }
-            return false;
-        }
-    });
+        });
 
-        btnBack.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Bm = "3";
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Bm = "0";
-                    break;
+        btnDroite.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Bm = "3";
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Bm = "-1";
+                        break;
+                }
+                return false;
             }
-            return false;
-        }
-    });
+        });
 
-        btnRight.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Bm = "4";
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Bm = "0";
-                    break;
+        btnTirer.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bm = "4";
             }
-            return false;
-        }
-    });
+        });
 
         btnDis.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Disconnect(); //close connection
-        }
-    });
-}
+            @Override
+            public void onClick(View v) {
+                Disconnect(); //close connection
+            }
+        });
+    }
 
-    private void Disconnect()
+    private void SendBluetooth(String data)
     {
-        if (btSocket!=null) //If the btSocket is busy
+        if (btSocket!=null)
         {
-            try
-            {
-                btSocket.close(); //close connection
+            try {
+                btSocket.getOutputStream().write(data.toString().getBytes());
             }
             catch (IOException e)
             {
-                //msg("Error");
+                Toast.makeText(this,"Impossible d'envoyer de l'information à l'appareil.", Toast.LENGTH_SHORT);
             }
         }
-        finish(); //return to the first layout
-
     }
-*/
+
     private Boolean ConnectBT(){
         Boolean success = true;
         try
         {
             if (btSocket == null)
             {
-                myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
-                BluetoothDevice device = myBluetooth.getRemoteDevice(adrDevice);//connects to the device's address and checks if it's available
+                myBluetooth = BluetoothAdapter.getDefaultAdapter();
+                BluetoothDevice device = myBluetooth.getRemoteDevice(adrDevice);
 
                 btSocket = device.createInsecureRfcommSocketToServiceRecord(myUUID);
                 BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
@@ -168,9 +159,26 @@ public class RobotController extends AppCompatActivity {
         }
         catch (IOException e)
         {
-            success = false;//if the try failed, you can check the exception here
+            success = false;
         }
         return success;
+    }
+
+    private void Disconnect()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.close();
+            }
+            catch (IOException e)
+            {
+                Toast.makeText(this,"Il y a eu un problème lors de la déconnexion de l'appareil.", Toast.LENGTH_SHORT);
+            }
+        }
+        finish();
+
     }
 
 }
