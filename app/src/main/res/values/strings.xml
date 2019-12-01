@@ -3,4 +3,6 @@
     <string name="lbl_Equipe_Text">Les 100G-NY</string>
     <string name="lbl_SousTitre_Text">Bluetooth controller</string>
     <string name="btn_ConnectBT_Text">Connecter au bluetooth</string>
+    <string name="imgView_BT_Text">Image BT</string>
+    <string name="title_activity_bluetooth_list">bluetoothListActivity</string>
 </resources>
